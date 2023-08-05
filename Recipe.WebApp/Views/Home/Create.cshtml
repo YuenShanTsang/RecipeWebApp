@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "Create";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>Create your own recipe!</p>
+
+<form>
+    <div class="form-group">
+        <label for="recipeName">Recipe Name</label>
+        <input type="text" id="recipeName" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="recipeIngredient">Recipe Ingredient</label>
+        <input type="text" id="recipeIngredient" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="recipeInstruction">Recipe Instruction</label>
+        <textarea id="recipeInstruction" class="form-control" rows="4"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="recipeCookingTime">Recipe Cooking Time</label>
+        <input type="text" id="recipeCookingTime" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="recipeDifficulty">Recipe Difficulty</label>
+        <input type="text" id="recipeDifficulty" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="recipeImage">Recipe Image URL</label>
+        <input type="text" id="recipeImage" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Recipe</button>
+</form>
+
+<style>
+    /* Add your custom CSS styles here */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+</style>

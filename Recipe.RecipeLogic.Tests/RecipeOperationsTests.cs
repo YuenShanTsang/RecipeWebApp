@@ -1,7 +1,7 @@
 ﻿namespace Recipe.RecipeLogic.Tests;
 
 [TestClass]
-public class CalcOperationsTests
+public class RecipeOperationsTests
 {
     [TestMethod]
     public void TestMethod1()

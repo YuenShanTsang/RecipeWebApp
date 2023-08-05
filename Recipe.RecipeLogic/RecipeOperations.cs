@@ -1,6 +1,6 @@
 ﻿namespace Recipe.RecipeLogic;
 
-public class CalcOperations
+public class RecipeOperations
 {
     public static double Add(double left, double right)
     {

@@ -2,15 +2,10 @@
 
 public class RecipeOperations
 {
-    public static double Add(double left, double right)
+    public string GetRecipeName(string recipeId)
     {
-        return left + right;
-    }
-
-    public static double Subtract(double left, double right)
-    {
-        return left - right;
+        // Logic to retrieve recipe name based on recipeId
+        return "Sample Recipe";
     }
 
 }
-

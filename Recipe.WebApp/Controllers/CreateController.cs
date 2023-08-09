@@ -14,7 +14,7 @@ namespace Recipe.WebApp.Controllers
 
         // POST: /Create/CreateRecipe
         [HttpPost]
-        public IActionResult CreateRecipe(Models.RecipeItem recipe)
+        public IActionResult CreateRecipe(Library.Models.RecipeItem recipe)
         {
             // This method handles the submission of the CreateRecipe form
 

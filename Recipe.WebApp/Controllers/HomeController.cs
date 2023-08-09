@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Recipe.Library.Models;
 using Recipe.WebApp.Models;
 
 namespace Recipe.WebApp.Controllers

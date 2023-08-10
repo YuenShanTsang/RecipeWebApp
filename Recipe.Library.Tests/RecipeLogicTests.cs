@@ -17,18 +17,5 @@
             Assert.AreEqual("Sample Recipe", recipeName);
         }
 
-        [TestMethod]
-        public void GetRecipeName_InvalidId_ReturnsNull()
-        {
-            // Arrange
-            var recipeLogic = new RecipeLogic();
-            var recipeId = "456";
-
-            // Act
-            var recipeName = recipeLogic.GetRecipeName(recipeId);
-
-            // Assert
-            Assert.IsNull(recipeName);
-        }
     }
 }

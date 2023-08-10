@@ -1,7 +1,9 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Recipe.Library.Services;
 using Recipe.Library.Models;
 using Recipe.WebApp.Models;
+using Newtonsoft.Json;
 
 namespace Recipe.WebApp.Controllers
 {
@@ -10,19 +12,38 @@ namespace Recipe.WebApp.Controllers
         // A static list to store recipe items
         private static List<RecipeItem> _recipes = new List<RecipeItem>();
 
-        private readonly ILogger<HomeController> _logger;
+        private readonly IApiService _apiService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IApiService apiService)
         {
-            _logger = logger;
+            _apiService = apiService;
         }
 
         // GET: /Home/Index
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            // Display the list of recipes on the Index view
-            return View(_recipes);
+            // Create a list to store recipes
+            List<RecipeItem> recipes = new List<RecipeItem>();
+
+            // Fetch 50 random meal data from the API
+            for (int i = 0; i < 50; i++)
+            {
+                string randomMealData = await _apiService.GetRandomMealAsync();
+
+                // Deserialize the API response
+                var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(randomMealData);
+
+                // Add the recipe to the list
+                if (apiResponse.Meals.Count > 0)
+                {
+                    recipes.Add(new RecipeItem { RecipeName = apiResponse.Meals[0].StrMeal });
+                }
+            }
+
+            return View(recipes);
         }
+
+
 
         // GET: /Home/Create
         public IActionResult Create()

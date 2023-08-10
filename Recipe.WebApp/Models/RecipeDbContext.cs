@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Recipe.Library.Models;
 
-namespace Recipe.Library.Data
+namespace Recipe.WebApp.Models
 {
     public class RecipeDbContext : DbContext
     {

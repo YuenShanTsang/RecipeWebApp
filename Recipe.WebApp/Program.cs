@@ -1,5 +1,5 @@
 ﻿using Recipe.Library.Services;
-using Recipe.Library.Data;
+using Recipe.WebApp.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

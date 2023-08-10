@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Recipe.Library.Migrations
+namespace Recipe.WebApp.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

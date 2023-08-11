@@ -7,6 +7,7 @@
 
     public class Meal
     {
+        public string idMeal { get; set; }
         public string StrMeal { get; set; }
         public string StrMealThumb { get; set; }
         public string strCategory { get; set; }

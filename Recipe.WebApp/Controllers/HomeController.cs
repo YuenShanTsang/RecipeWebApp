@@ -51,6 +51,22 @@ namespace Recipe.WebApp.Controllers
             return View(allRecipes);
         }
 
+        public IActionResult Details(int id)
+        {
+            // Retrieve the recipe details from the database based on the ID
+            var recipe = _dbContext.Recipes.FirstOrDefault(r => r.RecipeId == id);
+
+            if (recipe == null)
+            {
+                return NotFound(); // Handle the case where the recipe is not found
+            }
+
+            return View(recipe); // Pass the recipe to the Detail view
+        }
+
+
+
+
         // GET: /Home/Create
         public IActionResult Create()
         {

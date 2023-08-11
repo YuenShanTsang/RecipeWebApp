@@ -44,6 +44,12 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
+
+    endpoints.MapControllerRoute(
+    name: "recipeDetails",
+    pattern: "Home/Details/{id}",
+    defaults: new { controller = "Home", action = "Details" });
+
 });
 
 

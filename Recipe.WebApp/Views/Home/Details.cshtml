@@ -1,0 +1,17 @@
+﻿@model RecipeItem
+
+@{
+    ViewData["Title"] = "Recipe Details";
+}
+
+<div class="recipe-detail">
+    <h2>@Model.RecipeName</h2>
+    <p>Category: @Model.RecipeCategory</p>
+    <img src="@Model.RecipeImage" alt="Recipe Image">
+    <h3>Ingredients</h3>
+    <p>@Model.RecipeIngredient</p>
+    <h3>Instructions</h3>
+    <p>@Model.RecipeInstruction</p>
+    <p>Cooking Time: @Model.RecipeCookingTime</p>
+    <p>Difficulty: @Model.RecipeDifficulty</p>
+</div>

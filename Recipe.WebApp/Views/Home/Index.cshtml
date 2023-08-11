@@ -15,8 +15,14 @@
                     <div class="card-body">
                         <h5 class="card-title">@recipe.RecipeName</h5>
                         <p class="card-text">Category: @recipe.RecipeCategory</p>
-                        <a href="@Url.Action("Details", "Home", new { id = recipe.RecipeId })" class="btn btn-primary">View Recipe</a>
-
+                        @if (!string.IsNullOrEmpty(recipe.ApiRecipeId))
+                        {
+                            <a href="@Url.Action("ApiDetails", "Home", new { id = recipe.ApiRecipeId })" class="btn btn-primary">View Recipe</a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Details", "Home", new { id = recipe.RecipeId })" class="btn btn-primary">View Recipe</a>
+                        }
                     </div>
                 </div>
             </div>

@@ -3,6 +3,7 @@
 	public interface IApiService
 	{
         Task<string> GetRandomMealAsync();
+        Task<string> GetRecipeByIdAsync(string recipeId);
     }
 }
 

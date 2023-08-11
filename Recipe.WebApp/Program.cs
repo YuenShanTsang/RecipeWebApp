@@ -42,17 +42,19 @@ app.UseEndpoints(endpoints =>
         defaults: new { controller = "Create", action = "Create" });
 
     endpoints.MapControllerRoute(
+        name: "apiDetails",
+        pattern: "Home/ApiDetails/{id}",
+        defaults: new { controller = "Home", action = "ApiDetails" });
+
+    endpoints.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
 
     endpoints.MapControllerRoute(
-    name: "recipeDetails",
-    pattern: "Home/Details/{id}",
-    defaults: new { controller = "Home", action = "Details" });
-
+        name: "recipeDetails",
+        pattern: "Home/Details/{id}",
+        defaults: new { controller = "Home", action = "Details" });
 });
-
-
 
 app.Run();
 

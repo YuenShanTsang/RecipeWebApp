@@ -34,6 +34,9 @@ namespace Recipe.Library.Models
         [StringLength(200)]
         public string RecipeImage { get; set; } = "";
 
+        [StringLength(50)]
+        public string ApiRecipeId { get; set; } = "";
+
         [EnumDataType(typeof(RecipeOperation))]
         public RecipeOperation Operation;
 

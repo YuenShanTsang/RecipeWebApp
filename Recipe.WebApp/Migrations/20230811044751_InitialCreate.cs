@@ -15,14 +15,14 @@ namespace Recipe.WebApp.Migrations
                 name: "Recipes",
                 columns: table => new
                 {
-                    RecipeId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RecipeName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    RecipeIngredient = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    RecipeInstruction = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    RecipeCookingTime = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    RecipeDifficulty = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    RecipeImage = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
+                    RecipeId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    RecipeName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    RecipeIngredient = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
+                    RecipeInstruction = table.Column<string>(type: "TEXT", maxLength: 1000, nullable: false),
+                    RecipeCookingTime = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    RecipeDifficulty = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    RecipeImage = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,11 +33,10 @@ namespace Recipe.WebApp.Migrations
                 name: "Favourite",
                 columns: table => new
                 {
-                    FavouriteId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RecipeId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateFavourited = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    FavouriteId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    RecipeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateFavourited = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,12 +53,11 @@ namespace Recipe.WebApp.Migrations
                 name: "Rating",
                 columns: table => new
                 {
-                    RatingId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RecipeId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Stars = table.Column<int>(type: "int", nullable: false),
-                    DateRated = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    RatingId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    RecipeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Stars = table.Column<int>(type: "INTEGER", nullable: false),
+                    DateRated = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

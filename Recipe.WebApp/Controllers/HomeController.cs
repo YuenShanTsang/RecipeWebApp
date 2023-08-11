@@ -9,41 +9,40 @@ namespace Recipe.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        // A static list to store recipe items
-        private static List<RecipeItem> _recipes = new List<RecipeItem>();
-
+        private readonly RecipeDbContext _dbContext;
         private readonly IApiService _apiService;
 
-        public HomeController(IApiService apiService)
+        public HomeController(RecipeDbContext dbContext, IApiService apiService)
         {
+            _dbContext = dbContext;
             _apiService = apiService;
         }
 
         // GET: /Home/Index
         public async Task<IActionResult> Index()
         {
-            // Create a list to store recipes
-            List<RecipeItem> recipes = new List<RecipeItem>();
+            // Retrieve user-created recipes from the database
+            List<RecipeItem> userRecipes = _dbContext.Recipes.ToList();
 
-            // Fetch 50 random meal data from the API
+            // Retrieve API recipes
+            List<RecipeItem> apiRecipes = new List<RecipeItem>();
+
             for (int i = 0; i < 50; i++)
             {
                 string randomMealData = await _apiService.GetRandomMealAsync();
-
-                // Deserialize the API response
                 var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(randomMealData);
 
-                // Add the recipe to the list
                 if (apiResponse.Meals.Count > 0)
                 {
-                    recipes.Add(new RecipeItem { RecipeName = apiResponse.Meals[0].StrMeal });
+                    apiRecipes.Add(new RecipeItem { RecipeName = apiResponse.Meals[0].StrMeal });
                 }
             }
 
-            return View(recipes);
+            // Combine user-created and API recipes into a single list
+            List<RecipeItem> allRecipes = userRecipes.Concat(apiRecipes).ToList();
+
+            return View(allRecipes);
         }
-
-
 
         // GET: /Home/Create
         public IActionResult Create()
@@ -57,8 +56,9 @@ namespace Recipe.WebApp.Controllers
         [ActionName("CreateRecipe")]
         public IActionResult CreateRecipe(RecipeItem recipe)
         {
-            // Add the submitted recipe to the list
-            _recipes.Add(recipe);
+            // Add the submitted recipe to the database
+            _dbContext.Recipes.Add(recipe);
+            _dbContext.SaveChanges();
 
             // Redirect to the Index action to display the updated list of recipes
             return RedirectToAction("Index");

@@ -14,9 +14,6 @@ namespace Recipe.Library.Models
         public RecipeItem Recipe { get; set; } = null!;
 
         [Required]
-        public string UserId { get; set; } = null!;
-
-        [Required]
         public DateTime DateFavourited { get; set; }
     }
 }

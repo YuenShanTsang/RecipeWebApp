@@ -11,8 +11,9 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<IApiService, ApiService>();
 
 // Register the RecipeDbContext
-builder.Services.AddDbContext<RecipeDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<RecipeDbContext>(
+    options => options.UseSqlite("Data Source=/Users/yuenshan/Documents/Programming/WEB_project/Data/recipe.db;")
+    );
 
 var app = builder.Build();
 

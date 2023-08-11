@@ -46,24 +46,5 @@ namespace Recipe.WebApp.Controllers
                 return View("~/Views/Create/Create.cshtml", recipe);
             }
         }
-
-        // POST: /Create/CreateRecipe
-        //[HttpPost]
-        //public IActionResult CreateRecipe(Library.Models.RecipeItem recipe)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _dbContext.Recipes.Add(recipe);
-        //        _dbContext.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    else
-        //    {
-        //        // Handle validation errors
-        //        return View("~/Views/Create/Create.cshtml", recipe);
-        //    }
-        //}
-
-
     }
 }

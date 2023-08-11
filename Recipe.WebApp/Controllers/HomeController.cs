@@ -27,16 +27,23 @@ namespace Recipe.WebApp.Controllers
             // Retrieve API recipes
             List<RecipeItem> apiRecipes = new List<RecipeItem>();
 
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 30; i++)
             {
                 string randomMealData = await _apiService.GetRandomMealAsync();
                 var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(randomMealData);
 
                 if (apiResponse.Meals.Count > 0)
                 {
-                    apiRecipes.Add(new RecipeItem { RecipeName = apiResponse.Meals[0].StrMeal });
+                    var apiRecipe = apiResponse.Meals[0];
+                    apiRecipes.Add(new RecipeItem
+                    {
+                        RecipeName = apiRecipe.StrMeal,
+                        RecipeCategory = apiRecipe.strCategory, // Set the category property
+                        RecipeImage = apiRecipe.StrMealThumb // Set the image property
+                    });
                 }
             }
+
 
             // Combine user-created and API recipes into a single list
             List<RecipeItem> allRecipes = userRecipes.Concat(apiRecipes).ToList();

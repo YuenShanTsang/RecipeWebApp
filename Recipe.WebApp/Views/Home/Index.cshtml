@@ -4,12 +4,21 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Recipes</h1>
-    <ul>
+<div class="container">
+    <h1 class="text-center mt-4">Recipes</h1>
+    <div class="row mt-4">
         @foreach (var recipe in Model)
         {
-            <li>@recipe.RecipeName</li>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="@recipe.RecipeImage" class="card-img-top" alt="Recipe Image">
+                    <div class="card-body">
+                        <h5 class="card-title">@recipe.RecipeName</h5>
+                        <p class="card-text">Category: @recipe.RecipeCategory</p>
+                        <a href="#" class="btn btn-primary">View Recipe</a>
+                    </div>
+                </div>
+            </div>
         }
-    </ul>
+    </div>
 </div>

@@ -8,6 +8,7 @@
     public class Meal
     {
         public string StrMeal { get; set; }
+        public string StrMealThumb { get; set; }
         public string strCategory { get; set; }
         public string strArea { get; set; }
         public string strInstructions { get; set; }

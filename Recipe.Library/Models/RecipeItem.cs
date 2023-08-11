@@ -13,6 +13,10 @@ namespace Recipe.Library.Models
 
         [Required]
         [StringLength(500)]
+        public string RecipeCategory { get; set; } = null!;
+
+        [Required]
+        [StringLength(500)]
         public string RecipeIngredient { get; set; } = null!;
 
         [Required]

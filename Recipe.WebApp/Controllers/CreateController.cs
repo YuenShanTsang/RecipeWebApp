@@ -20,6 +20,7 @@ namespace Recipe.WebApp.Controllers
             // Display the Create view when accessed via HTTP GET request
             return View("~/Views/Create/Create.cshtml");
         }
+
         [HttpPost]
         public IActionResult CreateRecipe(RecipeItem recipe)
         {

@@ -17,32 +17,32 @@
 
     <div class="form-group">
         <label for="RecipeCategory">Recipe Category</label>
-        <input type="text" id="RecipeCategory" name="RecipeCategory" class="form-control" value="@Model.RecipeCategory">
+        <input type="text" id="RecipeCategory" name="RecipeCategory" class="form-control" value="@Model.RecipeCategory" required>
     </div>
 
     <div class="form-group">
         <label for="RecipeIngredient">Recipe Ingredient</label>
-        <input type="text" id="RecipeIngredient" name="RecipeIngredient" class="form-control" value="@Model.RecipeIngredient">
+        <input type="text" id="RecipeIngredient" name="RecipeIngredient" class="form-control" value="@Model.RecipeIngredient" required>
     </div>
 
     <div class="form-group">
         <label for="RecipeInstruction">Recipe Instruction</label>
-        <textarea id="RecipeInstruction" name="RecipeInstruction" class="form-control" rows="4">@Model.RecipeInstruction</textarea>
+        <textarea id="RecipeInstruction" name="RecipeInstruction" class="form-control" rows="4" required>@Model.RecipeInstruction</textarea>
     </div>
 
     <div class="form-group">
         <label for="RecipeCookingTime">Recipe Cooking Time</label>
-        <input type="text" id="RecipeCookingTime" name="RecipeCookingTime" class="form-control" value="@Model.RecipeCookingTime">
+        <input type="text" id="RecipeCookingTime" name="RecipeCookingTime" class="form-control" value="@Model.RecipeCookingTime" required>
     </div>
 
     <div class="form-group">
         <label for="RecipeDifficulty">Recipe Difficulty</label>
-        <input type="text" id="RecipeDifficulty" name="RecipeDifficulty" class="form-control" value="@Model.RecipeDifficulty">
+        <input type="text" id="RecipeDifficulty" name="RecipeDifficulty" class="form-control" value="@Model.RecipeDifficulty" required>
     </div>
 
     <div class="form-group">
         <label for="RecipeImage">Recipe Image URL</label>
-        <input type="text" id="RecipeImage" name="RecipeImage" class="form-control" value="@Model.RecipeImage">
+        <input type="text" id="RecipeImage" name="RecipeImage" class="form-control" value="@Model.RecipeImage" required>
     </div>
 
     <button type="submit" class="btn btn-primary">Save Changes</button>

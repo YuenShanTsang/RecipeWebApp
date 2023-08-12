@@ -6,7 +6,7 @@ namespace Recipe.WebApp.Controllers
 {
     public class CreateController : Controller
     {
-        private readonly RecipeDbContext _dbContext; // Define an instance of your DbContext
+        private readonly RecipeDbContext _dbContext; // Define an instance of DbContext
 
         public CreateController(RecipeDbContext dbContext)
         {
@@ -43,7 +43,7 @@ namespace Recipe.WebApp.Controllers
                 // Log or output the exception details
                 Console.WriteLine(ex.ToString());
 
-                // Optionally, handle the exception gracefully and provide user-friendly feedback
+                // Handle the exception gracefully and provide user-friendly feedback
                 return View("~/Views/Create/Create.cshtml", recipe);
             }
         }

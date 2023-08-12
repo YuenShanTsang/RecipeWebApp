@@ -162,7 +162,6 @@ namespace Recipe.WebApp.Controllers
                         _dbContext.Recipes.Add(recipe);
                         _dbContext.SaveChanges();
                     }
-                    // You can handle other cases like updating existing API recipe here if needed
                 }
 
                 // Redirect to the Index action to display the updated list of recipes

@@ -21,6 +21,5 @@ public class RecipeItemTests
         // Assert
         Assert.AreEqual(original.RecipeName, deserialized.RecipeName);
         Assert.AreEqual(original.RecipeCategory, deserialized.RecipeCategory);
-        // Verify other properties as needed
     }
 }

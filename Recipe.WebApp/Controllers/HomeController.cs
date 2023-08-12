@@ -19,7 +19,7 @@ namespace Recipe.WebApp.Controllers
         }
 
         // GET: /Home/Index
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchQuery)
         {
             // Retrieve user-created recipes from the database
             List<RecipeItem> userRecipes = _dbContext.Recipes.ToList();
@@ -53,9 +53,19 @@ namespace Recipe.WebApp.Controllers
             // Combine user-created and filtered API recipes into a single list
             List<RecipeItem> allRecipes = userRecipes.Concat(apiRecipesFiltered).ToList();
 
+            // Apply search filter if a search query is provided
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                searchQuery = searchQuery.ToLower();
+                allRecipes = allRecipes
+                    .Where(recipe =>
+                        recipe.RecipeName.ToLower().Contains(searchQuery) ||
+                        recipe.RecipeCategory.ToLower().Contains(searchQuery))
+                    .ToList();
+            }
+
             return View(allRecipes);
         }
-
 
         public IActionResult Details(int id)
         {

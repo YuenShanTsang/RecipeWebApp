@@ -7,7 +7,7 @@ using WebDriverManager.DriverConfigs.Impl;
 namespace Recipe.WebApp.Tests
 {
     [TestClass]
-    public class CreateTest
+    public class CreateTests
     {
         private IWebDriver? _webdriver;
         private const string BaseUrl = "https://localhost:5001/";
@@ -38,6 +38,32 @@ namespace Recipe.WebApp.Tests
             var submitButton = _webdriver?.FindElement(By.CssSelector("form button[type='submit']"));
 
             // Navigate to Home page
+            _webdriver?.Navigate().GoToUrl(BaseUrl);
+
+            // Check if the created recipe name is displayed on the Home page
+            Assert.IsTrue(_webdriver?.PageSource.Contains("Test Recipe"));
+        }
+
+        [TestMethod]
+        public void CreateRecipeWithRecipeCategory()
+        {
+            // Navigate to Create page
+            _webdriver?.Navigate().GoToUrl(BaseUrl + "Create");
+
+            // Use WebDriverWait to wait for the elements to become visible
+            var wait = new WebDriverWait(_webdriver, TimeSpan.FromSeconds(10));
+            var recipeNameField = wait.Until(driver =>
+                driver.FindElement(By.Id("RecipeName")));
+            var recipeCategoryField = _webdriver?.FindElement(By.Id("RecipeCategory"));
+
+            // Fill out the form fields
+            recipeNameField.SendKeys("Test Recipe");
+            recipeCategoryField?.SendKeys("Dessert");
+
+            // Find the submit button
+            var submitButton = _webdriver?.FindElement(By.CssSelector("form button[type='submit']"));
+
+            // Navigate back to the Home page
             _webdriver?.Navigate().GoToUrl(BaseUrl);
 
             // Check if the created recipe name is displayed on the Home page

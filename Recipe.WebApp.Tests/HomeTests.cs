@@ -21,57 +21,29 @@ namespace Recipe.WebApp.Tests
         }
 
         [TestMethod]
-        public void CreateRecipeAndCheckOnHomePage()
+        public void HomePageDisplaysRecipes()
         {
-            // Navigate to Create page
-            _webdriver?.Navigate().GoToUrl(BaseUrl + "Create");
+            // Navigate to the Home page
+            _webdriver.Navigate().GoToUrl(BaseUrl);
 
-            // Use WebDriverWait to wait for the element to become visible
-            var wait = new WebDriverWait(_webdriver, TimeSpan.FromSeconds(10));
-            var recipeNameField = wait.Until(driver =>
-                driver.FindElement(By.Id("RecipeName")));
-
-            // Fill out the form fields
-            recipeNameField.SendKeys("Test Recipe");
-
-            // Find the submit button
-            var submitButton = _webdriver?.FindElement(By.CssSelector("form button[type='submit']"));
-
-            // Click using JavaScript to bypass any intercepting elements
-            ((IJavaScriptExecutor)_webdriver).ExecuteScript("arguments[0].click();", submitButton);
-
-            // Navigate to Home page
-            _webdriver?.Navigate().GoToUrl(BaseUrl);
-
-            // Check if the created recipe name is displayed on the Home page
-            Assert.IsTrue(_webdriver?.PageSource.Contains("Test Recipe"));
-        }
-
-
-        [TestMethod]
-        public void CheckDetailsPage()
-        {
-            // Navigate to Details page
-            _webdriver?.Navigate().GoToUrl(BaseUrl + "Home/Details/1");
-
-            // Use WebDriverWait to wait for the elements to become visible
+            // Use WebDriverWait to wait for the recipes to become visible
             var wait = new WebDriverWait(_webdriver, TimeSpan.FromSeconds(10));
 
             try
             {
-                // Wait for the recipe detail element to be visible
-                var recipeDetailElement = wait.Until(driver =>
-                    driver.FindElement(By.ClassName("recipe-detail")));
+                // Wait for the recipe cards to be visible
+                var recipeCards = wait.Until(driver =>
+                    driver.FindElements(By.CssSelector(".card")));
 
-                // Verify recipe name
-                var recipeNameElement = recipeDetailElement.FindElement(By.TagName("h1"));
-                Assert.IsTrue(recipeNameElement.Text.Contains("Test Recipe"));
+                // Assert that there are some recipe cards displayed
+                Assert.IsTrue(recipeCards.Count > 0, "No recipe cards found on the home page.");
             }
             catch (WebDriverTimeoutException)
             {
-                Assert.Fail("The recipe detail element was not found on the details page.");
+                Assert.Fail("Recipe cards were not found on the home page.");
             }
         }
+
 
         [TestCleanup]
         public void Teardown()

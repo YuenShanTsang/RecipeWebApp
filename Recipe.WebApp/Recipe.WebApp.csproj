@@ -10,11 +10,13 @@
     <None Remove="Views\Create\" />
     <None Remove="Models\" />
     <None Remove="Data\" />
+    <None Remove="Views\Edit\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Create\" />
     <Folder Include="Models\" />
     <Folder Include="Data\" />
+    <Folder Include="Views\Edit\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Recipe.Library\Recipe.Library.csproj">
@@ -29,5 +31,8 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.10" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Views\Edit\Create.cshtml" />
   </ItemGroup>
 </Project>

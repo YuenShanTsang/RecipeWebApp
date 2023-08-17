@@ -180,6 +180,28 @@ namespace Recipe.WebApp.Controllers
         }
 
 
+
+        [HttpPost]
+        public IActionResult RateRecipe(int id, int rating)
+        {
+            var recipe = _dbContext.Recipes.FirstOrDefault(r => r.RecipeId == id);
+
+            if (recipe == null)
+            {
+                return NotFound();
+            }
+
+            // Update rating and number of ratings
+            recipe.Rating = (recipe.Rating * recipe.NumberOfRatings + rating) / (recipe.NumberOfRatings + 1);
+            recipe.NumberOfRatings++;
+
+            _dbContext.SaveChanges();
+
+            return RedirectToAction("Details", new { id });
+        }
+
+
+
         public async Task<IActionResult> ApiDetails(string id)
         {
             // Check if the provided ID corresponds to a user-created recipe or an API recipe

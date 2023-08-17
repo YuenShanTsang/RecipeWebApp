@@ -41,6 +41,10 @@ namespace Recipe.Library.Models
 
         public DateTime? DateFavourited { get; set; }
 
+        public double Rating { get; set; }
+
+        public int NumberOfRatings { get; set; }
+
         [EnumDataType(typeof(RecipeOperation))]
         public RecipeOperation Operation;
 

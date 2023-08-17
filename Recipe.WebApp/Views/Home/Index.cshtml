@@ -24,19 +24,24 @@
                     <div class="card-body">
                         <h5 class="card-title">@recipe.RecipeName</h5>
                         <p class="card-text">Category: @recipe.RecipeCategory</p>
+
                         @if (!string.IsNullOrEmpty(recipe.ApiRecipeId))
                         {
                             <a href="@Url.Action("ApiDetails", "Home", new { id = recipe.ApiRecipeId })" class="btn btn-primary">View Recipe</a>
                             @if (!recipe.IsFavorite)
                             {
                                 <form method="post" action="@Url.Action("AddApiRecipeToFavorites", "Home", new { id = recipe.ApiRecipeId })">
-                                    <button type="submit" class="btn btn-primary">Add to Favorites</button>
+                                    <div class="mt-2">
+                                        <button type="submit" class="btn btn-primary">Add to Favorites</button>
+                                    </div>
                                 </form>
                             }
                             else
                             {
                                 <form method="post" asp-action="RemoveFromFavorites" asp-route-id="@recipe.RecipeId">
-                                    <button type="submit" class="btn btn-danger">Remove from Favorites</button>
+                                    <div class="mt-2">
+                                        <button type="submit" class="btn btn-danger">Remove from Favorites</button>
+                                    </div>
                                 </form>
                             }
 
@@ -47,16 +52,21 @@
                             @if (!recipe.IsFavorite)
                             {
                                 <form method="post" asp-action="AddToFavorites" asp-route-id="@recipe.RecipeId">
-                                    <button type="submit" class="btn btn-primary">Add to Favorites</button>
+                                    <div class="mt-2">
+                                        <button type="submit" class="btn btn-primary">Add to Favorites</button>
+                                    </div>
                                 </form>
                             }
                             else
                             {
                                 <form method="post" asp-action="RemoveFromFavorites" asp-route-id="@recipe.RecipeId">
-                                    <button type="submit" class="btn btn-danger">Remove from Favorites</button>
+                                    <div class="mt-2">
+                                        <button type="submit" class="btn btn-danger">Remove from Favorites</button>
+                                    </div>
                                 </form>
                             }
                         }
+
                     </div>
                 </div>
             </div>

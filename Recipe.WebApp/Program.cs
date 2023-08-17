@@ -60,6 +60,11 @@ app.UseEndpoints(endpoints =>
         pattern: "Details/{action}/{id?}",
         defaults: new { controller = "Details", action = "Index" });
 
+    endpoints.MapControllerRoute(
+        name: "favourite",
+        pattern: "Favourite",
+        defaults: new { controller = "Favourite", action = "Favourite" });
+
 });
 
 app.Run();

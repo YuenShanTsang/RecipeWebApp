@@ -1,0 +1,44 @@
+﻿@model List<RecipeItem>
+
+@{
+    ViewData["Title"] = "Favorite Recipes";
+}
+
+<div class="container">
+    <h1 class="text-center mt-4">Favorite Recipes</h1>
+
+    <div class="row mt-4">
+        @foreach (var recipe in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="@recipe.RecipeImage" class="card-img-top" alt="Recipe Image">
+                    <div class="card-body">
+                        <h5 class="card-title">@recipe.RecipeName</h5>
+                        <p class="card-text">Category: @recipe.RecipeCategory</p>
+                        <p class="card-text">Favorited on: @recipe.DateFavourited</p>
+                        <a href="@Url.Action("Details", "Home", new { id = recipe.RecipeId })" class="btn btn-primary">View Recipe</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+
+<style>
+    .card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-body {
+        flex-grow: 1;
+    }
+
+    .card-img-top {
+        object-fit: cover;
+        height: 200px;
+    }
+</style>

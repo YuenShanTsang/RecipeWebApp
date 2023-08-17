@@ -33,6 +33,18 @@
                             <a href="@Url.Action("Details", "Home", new { id = recipe.RecipeId })" class="btn btn-primary">View Recipe</a>
                         }
                     </div>
+                    @if (!recipe.IsFavorite)
+                    {
+                        <form method="post" asp-action="AddToFavorites" asp-route-id="@recipe.RecipeId">
+                            <button type="submit" class="btn btn-primary">Add to Favorites</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form method="post" asp-action="RemoveFromFavorites" asp-route-id="@recipe.RecipeId">
+                            <button type="submit" class="btn btn-danger">Remove from Favorites</button>
+                        </form>
+                    }
                 </div>
             </div>
         }

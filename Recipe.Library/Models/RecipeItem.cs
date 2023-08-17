@@ -37,6 +37,10 @@ namespace Recipe.Library.Models
         [StringLength(50)]
         public string ApiRecipeId { get; set; } = "";
 
+        public bool IsFavorite { get; set; }
+
+        public DateTime? DateFavourited { get; set; }
+
         [EnumDataType(typeof(RecipeOperation))]
         public RecipeOperation Operation;
 

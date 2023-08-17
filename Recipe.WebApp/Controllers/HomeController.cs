@@ -88,6 +88,54 @@ namespace Recipe.WebApp.Controllers
             }
         }
 
+        public IActionResult AddToFavorites(int id)
+        {
+            var recipe = _dbContext.Recipes.FirstOrDefault(r => r.RecipeId == id);
+
+            if (recipe == null)
+            {
+                return NotFound();
+            }
+
+            if (string.IsNullOrEmpty(recipe.ApiRecipeId))
+            {
+                // This is a user-created recipe
+                recipe.IsFavorite = true;
+                recipe.DateFavourited = DateTime.Now;
+            }
+            else
+            {
+                // This is an API recipe
+                var apiRecipe = _dbContext.Recipes.FirstOrDefault(r => r.ApiRecipeId == recipe.ApiRecipeId);
+                if (apiRecipe != null)
+                {
+                    apiRecipe.IsFavorite = true;
+                    apiRecipe.DateFavourited = DateTime.Now;
+                }
+            }
+
+            _dbContext.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+
+        public IActionResult RemoveFromFavorites(int id)
+        {
+            var recipe = _dbContext.Recipes.FirstOrDefault(r => r.RecipeId == id);
+
+            if (recipe == null)
+            {
+                return NotFound();
+            }
+
+            recipe.IsFavorite = false;
+            _dbContext.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+
         public async Task<IActionResult> ApiDetails(string id)
         {
             // Check if the provided ID corresponds to a user-created recipe or an API recipe
@@ -173,8 +221,7 @@ namespace Recipe.WebApp.Controllers
                 return View("~/Views/Create/Create.cshtml", recipe);
             }
         }
-
-
+       
         // GET: /Home/Error
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

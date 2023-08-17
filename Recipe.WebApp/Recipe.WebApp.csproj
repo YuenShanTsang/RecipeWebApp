@@ -11,12 +11,14 @@
     <None Remove="Models\" />
     <None Remove="Data\" />
     <None Remove="Views\Edit\" />
+    <None Remove="Views\Favourite\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Create\" />
     <Folder Include="Models\" />
     <Folder Include="Data\" />
     <Folder Include="Views\Edit\" />
+    <Folder Include="Views\Favourite\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Recipe.Library\Recipe.Library.csproj">

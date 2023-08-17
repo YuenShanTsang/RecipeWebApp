@@ -64,7 +64,6 @@ app.UseEndpoints(endpoints =>
         name: "favourite",
         pattern: "Favourite",
         defaults: new { controller = "Favourite", action = "Favourite" });
-
 });
 
 app.Run();

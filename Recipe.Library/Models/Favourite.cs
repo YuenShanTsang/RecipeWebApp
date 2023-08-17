@@ -8,12 +8,26 @@ namespace Recipe.Library.Models
         public int FavouriteId { get; set; }
 
         [Required]
-        public int RecipeId { get; set; }
+        public string ApiRecipeId { get; set; } = "";
 
-        [Required]
-        public RecipeItem Recipe { get; set; } = null!;
+        [StringLength(100)]
+        public string RecipeName { get; set; } = null!;
 
-        [Required]
+
+        [StringLength(500)]
+        public string RecipeCategory { get; set; } = null!;
+
+
+        [StringLength(500)]
+        public string RecipeArea { get; set; } = null!;
+
+  
+        [StringLength(1000)]
+        public string RecipeInstruction { get; set; } = null!;
+
+        [StringLength(200)]
+        public string RecipeImage { get; set; } = "";
+
         public DateTime DateFavourited { get; set; }
     }
 }

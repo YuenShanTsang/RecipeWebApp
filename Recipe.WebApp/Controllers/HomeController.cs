@@ -64,8 +64,15 @@ namespace Recipe.WebApp.Controllers
                     .ToList();
             }
 
+            // Reorder the list of recipes based on IsFavorite and DateFavourited
+            allRecipes = allRecipes
+                .OrderByDescending(r => r.IsFavorite)
+                .ThenByDescending(r => r.DateFavourited)
+                .ToList();
+
             return View(allRecipes);
         }
+
 
         public IActionResult Details(int id)
         {
@@ -88,6 +95,7 @@ namespace Recipe.WebApp.Controllers
             }
         }
 
+
         public IActionResult AddToFavorites(int id)
         {
             var recipe = _dbContext.Recipes.FirstOrDefault(r => r.RecipeId == id);
@@ -97,24 +105,51 @@ namespace Recipe.WebApp.Controllers
                 return NotFound();
             }
 
-            if (string.IsNullOrEmpty(recipe.ApiRecipeId))
-            {
-                // This is a user-created recipe
-                recipe.IsFavorite = true;
-                recipe.DateFavourited = DateTime.Now;
-            }
-            else
-            {
-                // This is an API recipe
-                var apiRecipe = _dbContext.Recipes.FirstOrDefault(r => r.ApiRecipeId == recipe.ApiRecipeId);
-                if (apiRecipe != null)
-                {
-                    apiRecipe.IsFavorite = true;
-                    apiRecipe.DateFavourited = DateTime.Now;
-                }
-            }
+            // Mark the recipe as a favorite and update the favorited date
+            recipe.IsFavorite = true;
+            recipe.DateFavourited = DateTime.Now;
 
             _dbContext.SaveChanges();
+
+            // Reorder the list of recipes based on IsFavorite and DateFavourited
+            var allRecipes = _dbContext.Recipes.ToList();
+            allRecipes = allRecipes
+                .OrderByDescending(r => r.IsFavorite)
+                .ThenByDescending(r => r.DateFavourited)
+                .ToList();
+
+            // Redirect to the Index action to display the updated list of recipes
+            return RedirectToAction("Index", new { searchQuery = "" });
+        }
+
+
+
+
+        public async Task<IActionResult> AddApiRecipeToFavorites(string id)
+        {
+            // Fetch the API recipe from the API response
+            string apiRecipeData = await _apiService.GetRecipeByIdAsync(id);
+            var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(apiRecipeData);
+
+            if (apiResponse.Meals != null && apiResponse.Meals.Count > 0)
+            {
+                var apiRecipe = apiResponse.Meals[0];
+
+                // Create a new FavoriteApiRecipe object and save it to the database
+                var favoriteApiRecipe = new Favourite
+                {
+                    ApiRecipeId = apiRecipe.idMeal,
+                    RecipeName = apiRecipe.StrMeal,
+                    RecipeCategory = apiRecipe.strCategory,
+                    RecipeImage = apiRecipe.StrMealThumb,
+                    RecipeInstruction = apiRecipe.strInstructions,
+                    RecipeArea = apiRecipe.strArea,
+                    DateFavourited = DateTime.Now
+                };
+
+                _dbContext.Favourites.Add(favoriteApiRecipe);
+                _dbContext.SaveChanges();
+            }
 
             return RedirectToAction("Index");
         }
@@ -132,7 +167,16 @@ namespace Recipe.WebApp.Controllers
             recipe.IsFavorite = false;
             _dbContext.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index"); // Redirect
+        }
+
+        public IActionResult Favourite()
+        {
+            var favoriteRecipes = _dbContext.Recipes
+                .Where(r => r.IsFavorite && !string.IsNullOrEmpty(r.ApiRecipeId))
+                .ToList();
+
+            return View(favoriteRecipes);
         }
 
 
@@ -221,7 +265,7 @@ namespace Recipe.WebApp.Controllers
                 return View("~/Views/Create/Create.cshtml", recipe);
             }
         }
-       
+
         // GET: /Home/Error
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

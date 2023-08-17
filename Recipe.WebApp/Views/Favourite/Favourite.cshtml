@@ -1,5 +1,4 @@
-﻿@model List<RecipeItem>
-
+﻿@model List<Recipe.Library.Models.Favourite>
 @{
     ViewData["Title"] = "Favorite Recipes";
 }
@@ -17,13 +16,19 @@
                         <h5 class="card-title">@recipe.RecipeName</h5>
                         <p class="card-text">Category: @recipe.RecipeCategory</p>
                         <p class="card-text">Favorited on: @recipe.DateFavourited</p>
-                        <a href="@Url.Action("Details", "Home", new { id = recipe.RecipeId })" class="btn btn-primary">View Recipe</a>
+                        @if (!string.IsNullOrEmpty(recipe.ApiRecipeId))
+                        {
+                            <a href="@Url.Action("Details", "Favourite", new { id = recipe.ApiRecipeId })" class="btn btn-primary">View Recipe</a>
+                        }
+                        <form asp-action="RemoveFromFavorites" method="post">
+                            <input type="hidden" name="recipeId" value="@recipe.FavouriteId" />
+                            <button type="submit" class="btn btn-danger">Remove from Favorite</button>
+                        </form>
                     </div>
                 </div>
             </div>
         }
     </div>
-
 </div>
 
 <style>

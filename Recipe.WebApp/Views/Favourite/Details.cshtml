@@ -1,0 +1,21 @@
+﻿@model Recipe.Library.Models.Favourite
+
+@{
+    ViewData["Title"] = "Favorite Recipe Details";
+}
+
+<div class="container">
+    <h1 class="text-center mt-4">@Model.RecipeName</h1>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <img src="@Model.RecipeImage" class="img-fluid" alt="Recipe Image">
+        </div>
+        <div class="col-md-8">
+            <h4>Category: @Model.RecipeCategory</h4>
+            <p>Area: @Model.RecipeArea</p>
+            <p>Instruction: @Model.RecipeInstruction</p>
+            <p>Favorited on: @Model.DateFavourited</p>
+        </div>
+    </div>
+</div>

@@ -2,8 +2,6 @@
 using Recipe.Library.Models;
 using Recipe.WebApp.Models;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace Recipe.WebApp.Controllers
 {
     public class FavouriteController : Controller
@@ -15,15 +13,44 @@ namespace Recipe.WebApp.Controllers
             _dbContext = dbContext;
         }
 
-        // GET: /<controller>/
+        // GET: /Favourite/
         public IActionResult Favourite()
         {
-            // Retrieve list of favorite recipes from the database
-            List<RecipeItem> favoriteRecipes = _dbContext.Recipes.Where(r => r.IsFavorite).ToList();
+            // Retrieve list of favorite API recipes from the database
+            List<Favourite> favoriteApiRecipes = _dbContext.Favourites.ToList();
 
-            return View(favoriteRecipes);
+            return View(favoriteApiRecipes);
         }
 
+        // GET: /Favourite/Details/5
+        public IActionResult Details(string id)
+        {
+            var favoriteApiRecipe = _dbContext.Favourites.FirstOrDefault(r => r.ApiRecipeId == id);
+
+            if (favoriteApiRecipe == null)
+            {
+                return NotFound();
+            }
+
+            return View(favoriteApiRecipe);
+        }
+
+
+        // POST: /Favourite/RemoveFromFavorites
+        [HttpPost]
+        public IActionResult RemoveFromFavorites(int recipeId)
+        {
+            var favoriteRecipe = _dbContext.Favourites.FirstOrDefault(r => r.FavouriteId == recipeId);
+
+            if (favoriteRecipe == null)
+            {
+                return NotFound();
+            }
+
+            _dbContext.Favourites.Remove(favoriteRecipe);
+            _dbContext.SaveChanges();
+
+            return RedirectToAction("Favourite");
+        }
     }
 }
-

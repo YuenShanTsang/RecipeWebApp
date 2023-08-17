@@ -37,4 +37,9 @@
   <ItemGroup>
     <Content Remove="Views\Edit\Create.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Update="Properties\launchSettings.json">
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

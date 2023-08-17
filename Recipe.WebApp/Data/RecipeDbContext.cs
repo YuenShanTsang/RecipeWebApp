@@ -10,5 +10,6 @@ namespace Recipe.WebApp.Models
         }
 
         public DbSet<RecipeItem> Recipes { get; set; }
+        public DbSet<Favourite> Favourites { get; set; }
     }
 }

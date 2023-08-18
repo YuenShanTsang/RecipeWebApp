@@ -6,6 +6,17 @@
 <div class="container">
     <h1 class="text-center mt-4">Favorite Recipes</h1>
 
+    <div class="mt-4">
+        <form method="get" action="@Url.Action("Favourite")">
+            <label for="sortBy">Sort by:</label>
+            <select id="sortBy" name="sortBy">
+                <option value="timestamp">Timestamp</option>
+                <option value="rating">Rating</option>
+            </select>
+            <button type="submit">Sort</button>
+        </form>
+    </div>
+
     <div class="row mt-4">
         @foreach (var recipe in Model)
         {
@@ -15,20 +26,37 @@
                     <div class="card-body">
                         <h5 class="card-title">@recipe.RecipeName</h5>
                         <p class="card-text">Category: @recipe.RecipeCategory</p>
+                        <!-- Display rating -->
+                        <p class="card-text">Recipe Rating: @recipe.Rating.ToString("F2") (Total Ratings: @recipe.NumberOfRatings)</p>
                         <p class="card-text">Favorited on: @recipe.DateFavourited</p>
                         @if (!string.IsNullOrEmpty(recipe.ApiRecipeId))
                         {
-                            <a href="@Url.Action("Details", "Favourite", new { id = recipe.ApiRecipeId })" class="btn btn-primary">View Recipe</a>
+                            <a href="@Url.Action("ApiDetails", "Home", new { id = recipe.ApiRecipeId })" class="btn btn-primary">Details</a>
                         }
+                        <!-- User Rating input -->
+                        <form asp-action="RateFavoriteRecipe" method="post">
+                            <input type="hidden" name="recipeId" value="@recipe.FavouriteId" />
+                            <label for="rating">Rate this recipe:</label>
+                            <input type="number" id="rating" name="rating" min="1" max="5" required>
+                            <div class="mt-2">
+                                <button type="submit" class="btn btn-primary">Submit Rating</button>
+                            </div>
+                        </form>
+
                         <form asp-action="RemoveFromFavorites" method="post">
                             <input type="hidden" name="recipeId" value="@recipe.FavouriteId" />
-                            <div class="mt-2"> 
+                            <div class="mt-2">
                                 <button type="submit" class="btn btn-danger">Remove from Favorite</button>
                             </div>
                         </form>
+
+
+
+
                     </div>
                 </div>
             </div>
+
         }
     </div>
 </div>

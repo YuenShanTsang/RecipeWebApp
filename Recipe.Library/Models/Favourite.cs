@@ -2,6 +2,7 @@
 
 namespace Recipe.Library.Models
 {
+    // Model of a favorite recipe
     public class Favourite
     {
         [Key]
@@ -28,6 +29,11 @@ namespace Recipe.Library.Models
         [StringLength(200)]
         public string RecipeImage { get; set; } = "";
 
+        [DataType(DataType.DateTime)]
         public DateTime DateFavourited { get; set; }
+
+        public double Rating { get; set; }
+
+        public int NumberOfRatings { get; set; }
     }
 }

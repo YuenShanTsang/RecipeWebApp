@@ -2,6 +2,7 @@
 
 namespace Recipe.Library.Models
 {
+    // Model of a user rating for a recipe
     public class Rating
     {
         [Key]
@@ -17,6 +18,7 @@ namespace Recipe.Library.Models
         public int Stars { get; set; }
 
         [Required]
+        [DataType(DataType.DateTime)]
         public DateTime DateRated { get; set; }
     }
 }

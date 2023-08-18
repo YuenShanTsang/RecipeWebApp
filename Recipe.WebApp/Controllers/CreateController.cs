@@ -6,11 +6,13 @@ namespace Recipe.WebApp.Controllers
 {
     public class CreateController : Controller
     {
-        private readonly RecipeDbContext _dbContext; // Define an instance of DbContext
+        // Define an instance of DbContext
+        private readonly RecipeDbContext _dbContext; 
 
         public CreateController(RecipeDbContext dbContext)
         {
-            _dbContext = dbContext; // Inject the DbContext instance via constructor
+            // Inject the DbContext instance via constructor
+            _dbContext = dbContext; 
         }
 
         // GET: /Create/Create
@@ -21,6 +23,7 @@ namespace Recipe.WebApp.Controllers
             return View("~/Views/Create/Create.cshtml");
         }
 
+        // POST: /Create/CreateRecipe
         [HttpPost]
         public IActionResult CreateRecipe(RecipeItem recipe)
         {
@@ -28,8 +31,11 @@ namespace Recipe.WebApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    // Add the recipe to the Recipes DbSet in the database context
                     _dbContext.Recipes.Add(recipe);
+                    // Save changes to the database
                     _dbContext.SaveChanges();
+                    // Redirect to the "Index" action
                     return RedirectToAction("Index");
                 }
                 else

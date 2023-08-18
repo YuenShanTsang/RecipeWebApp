@@ -2,6 +2,7 @@
 
 namespace Recipe.Library.Models
 {
+    // Model of a recipe item.
     public class RecipeItem
     {
         [Key]

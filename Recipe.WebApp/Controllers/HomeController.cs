@@ -197,7 +197,7 @@ namespace Recipe.WebApp.Controllers
 
             _dbContext.SaveChanges();
 
-            return RedirectToAction("Details", new { id });
+            return RedirectToAction("Index", new { id });
         }
 
 

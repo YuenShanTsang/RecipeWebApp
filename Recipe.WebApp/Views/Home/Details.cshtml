@@ -13,12 +13,18 @@
 
 <div class="recipe-detail">
     <h1>@Model.RecipeName</h1>
+
     <p>Category: @Model.RecipeCategory</p>
+
     <img src="@Model.RecipeImage" alt="Recipe Image" style="max-width: 100%; height: auto;">
+
     <p>Cooking Time: @Model.RecipeCookingTime</p>
+
     <p>Difficulty: @Model.RecipeDifficulty</p>
+
     <h5>Ingredients</h5>
     <p>@Model.RecipeIngredient</p>
+
     <h5>Instructions</h5>
     <p>@Model.RecipeInstruction</p>
 </div>

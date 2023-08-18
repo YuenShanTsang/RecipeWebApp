@@ -9,7 +9,10 @@ namespace Recipe.WebApp.Models
         {
         }
 
+        // Gets or sets the DbSet for managing user-created recipes.
         public DbSet<RecipeItem> Recipes { get; set; }
+
+        // Gets or sets the DbSet for managing favorite recipes.
         public DbSet<Favourite> Favourites { get; set; }
     }
 }

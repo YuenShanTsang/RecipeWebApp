@@ -73,7 +73,50 @@ namespace Recipe.WebApp.Controllers
             return View(allRecipes);
         }
 
+        // GET: /Home/Create
+        public IActionResult Create()
+        {
+            // Display the Create view for adding a new recipe
+            return View();
+        }
 
+        // POST: /Home/CreateRecipe
+        [HttpPost]
+        [ActionName("CreateRecipe")]
+        public IActionResult CreateRecipe(RecipeItem recipe)
+        {
+            if (ModelState.IsValid)
+            {
+                if (string.IsNullOrEmpty(recipe.ApiRecipeId))
+                {
+                    // The recipe is user-created, just add it to the database
+                    _dbContext.Recipes.Add(recipe);
+                    _dbContext.SaveChanges();
+                }
+                else
+                {
+                    // Check if the API recipe already exists in the database by ApiRecipeId
+                    var existingApiRecipe = _dbContext.Recipes.FirstOrDefault(r => r.ApiRecipeId == recipe.ApiRecipeId);
+
+                    if (existingApiRecipe == null)
+                    {
+                        // The API recipe is not in the database, add it
+                        _dbContext.Recipes.Add(recipe);
+                        _dbContext.SaveChanges();
+                    }
+                }
+
+                // Redirect to the Index action to display the updated list of recipes
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                // Handle validation errors
+                return View("~/Views/Create/Create.cshtml", recipe);
+            }
+        }
+
+        // GET: /Home/Details/5
         public IActionResult Details(int id)
         {
             // Retrieve the recipe details from the database based on the recipe ID
@@ -95,113 +138,7 @@ namespace Recipe.WebApp.Controllers
             }
         }
 
-
-        public IActionResult AddToFavorites(int id)
-        {
-            var recipe = _dbContext.Recipes.FirstOrDefault(r => r.RecipeId == id);
-
-            if (recipe == null)
-            {
-                return NotFound();
-            }
-
-            // Mark the recipe as a favorite and update the favorited date
-            recipe.IsFavorite = true;
-            recipe.DateFavourited = DateTime.Now;
-
-            _dbContext.SaveChanges();
-
-            // Reorder the list of recipes based on IsFavorite and DateFavourited
-            var allRecipes = _dbContext.Recipes.ToList();
-            allRecipes = allRecipes
-                .OrderByDescending(r => r.IsFavorite)
-                .ThenByDescending(r => r.DateFavourited)
-                .ToList();
-
-            // Redirect to the Index action to display the updated list of recipes
-            return RedirectToAction("Index", new { searchQuery = "" });
-        }
-
-
-
-
-        public async Task<IActionResult> AddApiRecipeToFavorites(string id)
-        {
-            // Fetch the API recipe from the API response
-            string apiRecipeData = await _apiService.GetRecipeByIdAsync(id);
-            var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(apiRecipeData);
-
-            if (apiResponse.Meals != null && apiResponse.Meals.Count > 0)
-            {
-                var apiRecipe = apiResponse.Meals[0];
-
-                // Create a new FavoriteApiRecipe object and save it to the database
-                var favoriteApiRecipe = new Favourite
-                {
-                    ApiRecipeId = apiRecipe.idMeal,
-                    RecipeName = apiRecipe.StrMeal,
-                    RecipeCategory = apiRecipe.strCategory,
-                    RecipeImage = apiRecipe.StrMealThumb,
-                    RecipeInstruction = apiRecipe.strInstructions,
-                    RecipeArea = apiRecipe.strArea,
-                    DateFavourited = DateTime.Now
-                };
-
-                _dbContext.Favourites.Add(favoriteApiRecipe);
-                _dbContext.SaveChanges();
-            }
-
-            return RedirectToAction("Index");
-        }
-
-
-        public IActionResult RemoveFromFavorites(int id)
-        {
-            var recipe = _dbContext.Recipes.FirstOrDefault(r => r.RecipeId == id);
-
-            if (recipe == null)
-            {
-                return NotFound();
-            }
-
-            recipe.IsFavorite = false;
-            _dbContext.SaveChanges();
-
-            return RedirectToAction("Index"); // Redirect
-        }
-
-        public IActionResult Favourite()
-        {
-            var favoriteRecipes = _dbContext.Recipes
-                .Where(r => r.IsFavorite && !string.IsNullOrEmpty(r.ApiRecipeId))
-                .ToList();
-
-            return View(favoriteRecipes);
-        }
-
-
-
-        [HttpPost]
-        public IActionResult RateRecipe(int id, int rating)
-        {
-            var recipe = _dbContext.Recipes.FirstOrDefault(r => r.RecipeId == id);
-
-            if (recipe == null)
-            {
-                return NotFound();
-            }
-
-            // Update rating and number of ratings
-            recipe.Rating = (recipe.Rating * recipe.NumberOfRatings + rating) / (recipe.NumberOfRatings + 1);
-            recipe.NumberOfRatings++;
-
-            _dbContext.SaveChanges();
-
-            return RedirectToAction("Index", new { id });
-        }
-
-
-
+        // GET: /Home/ApiDetails/abc123
         public async Task<IActionResult> ApiDetails(string id)
         {
             // Check if the provided ID corresponds to a user-created recipe or an API recipe
@@ -245,47 +182,107 @@ namespace Recipe.WebApp.Controllers
             return View("ApiDetails", recipe);
         }
 
-        // GET: /Home/Create
-        public IActionResult Create()
+        // GET: /Home/Favourite
+        public IActionResult Favourite()
         {
-            // Display the Create view for adding a new recipe
-            return View();
+            var favoriteRecipes = _dbContext.Recipes
+                .Where(r => r.IsFavorite && !string.IsNullOrEmpty(r.ApiRecipeId))
+                .ToList();
+
+            return View(favoriteRecipes);
         }
 
-        // POST: /Home/CreateRecipe
-        [HttpPost]
-        [ActionName("CreateRecipe")]
-        public IActionResult CreateRecipe(RecipeItem recipe)
+        // POST: /Home/AddToFavorites/5
+        public IActionResult AddToFavorites(int id)
         {
-            if (ModelState.IsValid)
-            {
-                if (string.IsNullOrEmpty(recipe.ApiRecipeId))
-                {
-                    // The recipe is user-created, just add it to the database
-                    _dbContext.Recipes.Add(recipe);
-                    _dbContext.SaveChanges();
-                }
-                else
-                {
-                    // Check if the API recipe already exists in the database by ApiRecipeId
-                    var existingApiRecipe = _dbContext.Recipes.FirstOrDefault(r => r.ApiRecipeId == recipe.ApiRecipeId);
+            var recipe = _dbContext.Recipes.FirstOrDefault(r => r.RecipeId == id);
 
-                    if (existingApiRecipe == null)
-                    {
-                        // The API recipe is not in the database, add it
-                        _dbContext.Recipes.Add(recipe);
-                        _dbContext.SaveChanges();
-                    }
-                }
-
-                // Redirect to the Index action to display the updated list of recipes
-                return RedirectToAction("Index");
-            }
-            else
+            if (recipe == null)
             {
-                // Handle validation errors
-                return View("~/Views/Create/Create.cshtml", recipe);
+                return NotFound();
             }
+
+            // Mark the recipe as a favorite and update the favorited date
+            recipe.IsFavorite = true;
+            recipe.DateFavourited = DateTime.Now;
+
+            _dbContext.SaveChanges();
+
+            // Reorder the list of recipes based on IsFavorite and DateFavourited
+            var allRecipes = _dbContext.Recipes.ToList();
+            allRecipes = allRecipes
+                .OrderByDescending(r => r.IsFavorite)
+                .ThenByDescending(r => r.DateFavourited)
+                .ToList();
+
+            // Redirect to the Index action to display the updated list of recipes
+            return RedirectToAction("Index", new { searchQuery = "" });
+        }
+
+        // POST: /Home/AddApiRecipeToFavorites/abc123
+        public async Task<IActionResult> AddApiRecipeToFavorites(string id)
+        {
+            // Fetch the API recipe from the API response
+            string apiRecipeData = await _apiService.GetRecipeByIdAsync(id);
+            var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(apiRecipeData);
+
+            if (apiResponse.Meals != null && apiResponse.Meals.Count > 0)
+            {
+                var apiRecipe = apiResponse.Meals[0];
+
+                // Create a new FavoriteApiRecipe object and save it to the database
+                var favoriteApiRecipe = new Favourite
+                {
+                    ApiRecipeId = apiRecipe.idMeal,
+                    RecipeName = apiRecipe.StrMeal,
+                    RecipeCategory = apiRecipe.strCategory,
+                    RecipeImage = apiRecipe.StrMealThumb,
+                    RecipeInstruction = apiRecipe.strInstructions,
+                    RecipeArea = apiRecipe.strArea,
+                    DateFavourited = DateTime.Now
+                };
+
+                _dbContext.Favourites.Add(favoriteApiRecipe);
+                _dbContext.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        // POST: /Home/RemoveFromFavorites/5
+        public IActionResult RemoveFromFavorites(int id)
+        {
+            var recipe = _dbContext.Recipes.FirstOrDefault(r => r.RecipeId == id);
+
+            if (recipe == null)
+            {
+                return NotFound();
+            }
+
+            recipe.IsFavorite = false;
+            _dbContext.SaveChanges();
+
+            return RedirectToAction("Index"); // Redirect
+        }
+
+        // POST: /Home/RateRecipe/5
+        [HttpPost]
+        public IActionResult RateRecipe(int id, int rating)
+        {
+            var recipe = _dbContext.Recipes.FirstOrDefault(r => r.RecipeId == id);
+
+            if (recipe == null)
+            {
+                return NotFound();
+            }
+
+            // Update rating and number of ratings
+            recipe.Rating = (recipe.Rating * recipe.NumberOfRatings + rating) / (recipe.NumberOfRatings + 1);
+            recipe.NumberOfRatings++;
+
+            _dbContext.SaveChanges();
+
+            return RedirectToAction("Index", new { id });
         }
 
         // GET: /Home/Error

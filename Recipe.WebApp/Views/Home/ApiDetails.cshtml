@@ -2,8 +2,14 @@
 
 <div class="recipe-detail">
     <h1>@Model.RecipeName</h1>
+
     <p>Category: @Model.RecipeCategory</p>
-    <img src="@Model.RecipeImage" alt="Recipe Image" style="max-width: 100%; height: auto;">
+
+    <img src="@Model.RecipeImage"
+         alt="Recipe Image"
+         style="max-width: 100%; height: auto;">
+
     <h5>Instructions</h5>
+
     <p>@Model.RecipeInstruction</p>
 </div>

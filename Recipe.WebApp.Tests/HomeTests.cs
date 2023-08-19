@@ -52,7 +52,6 @@ namespace Recipe.WebApp.Tests
 
             // Find a recipe card
             var recipeCard = _webdriver.FindElement(By.Id("fav-btn"));
-            // Adjust the selector as needed
 
             var wait = new WebDriverWait(_webdriver, TimeSpan.FromSeconds(5));
 
@@ -79,6 +78,32 @@ namespace Recipe.WebApp.Tests
             var isFavoriteButtonDisplayed = removeFromFavoritesButton.Displayed;
 
             Assert.IsTrue(isFavoriteButtonDisplayed, "Recipe was not marked as favorite.");
+        }
+
+        [TestMethod]
+        public void SearchFunction_ShouldFilterRecipes()
+        {
+            _webdriver.Navigate().GoToUrl(BaseUrl);
+
+            var wait = new WebDriverWait(_webdriver, TimeSpan.FromSeconds(5));
+
+            // Wait for the search query input element to be visible using XPath
+            var searchInput = _webdriver.FindElement(By.Id("searchInput"));
+
+            // Act
+            string searchQuery = "Chicken";
+            searchInput.SendKeys(searchQuery);
+
+            // Find and click the search button
+            var searchButton = _webdriver.FindElement(By.Id("search-button"));
+            searchButton.Click();
+
+            // Wait for the search results to be visible
+            var recipeCards = wait.Until(driver =>
+                driver.FindElements(By.CssSelector(".card")));
+
+            // Assert: Check if search results are displayed
+            Assert.IsTrue(recipeCards.Count > 0, "No recipe cards found in search results.");
         }
 
         [TestCleanup]

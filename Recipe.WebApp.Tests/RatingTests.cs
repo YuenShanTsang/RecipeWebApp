@@ -36,7 +36,7 @@ namespace Recipe.WebApp.Tests
 
             // Wait for the rating display element using XPath
             var initialRatingElement = wait.Until(driver =>
-                driver.FindElement(By.XPath("//*[@id='rating-display']")));
+                driver.FindElement(By.XPath(".//*[@id='rating-display']")));
 
             // Get the initial recipe rating and number of ratings
             var initialRatingText = initialRatingElement.Text;

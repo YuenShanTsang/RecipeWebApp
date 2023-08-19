@@ -17,11 +17,11 @@
         </form>
     </div>
 
-    <div class="row mt-4">
+    <div class="row mt-4"  id="FavRecipes">
         @foreach (var recipe in Model)
         {
             <div class="col-md-4 mb-4">
-                <div class="card">
+                <div class="card" id="FavCard">
                     <img src="@recipe.RecipeImage" class="card-img-top" alt="Recipe Image">
                     <div class="card-body">
                         <h5 class="card-title">@recipe.RecipeName</h5>
@@ -43,10 +43,10 @@
                             </div>
                         </form>
 
-                        <form asp-action="RemoveFromFavorites" method="post">
+                        <form asp-action="RemoveFromFavorites" method="post" id="unfav-btn">
                             <input type="hidden" name="recipeId" value="@recipe.FavouriteId" />
-                            <div class="mt-2">
-                                <button type="submit" class="btn btn-danger">Remove from Favorite</button>
+                            <div class="mt-2" >
+                                <button type="submit" class="btn btn-danger" id="remove-from-favorites">Remove from Favorite</button>
                             </div>
                         </form>
 

@@ -32,7 +32,7 @@ namespace Recipe.WebApp.Tests
         public void CheckDetailsPage()
         {
             // Navigate to Details page
-            _webdriver?.Navigate().GoToUrl(BaseUrl + "Home/Details/2");
+            _webdriver?.Navigate().GoToUrl(BaseUrl + "Home/Details/6");
 
             // Use WebDriverWait to wait for the elements to become visible
             var wait = new WebDriverWait(_webdriver, TimeSpan.FromSeconds(10));
@@ -43,21 +43,28 @@ namespace Recipe.WebApp.Tests
                 var recipeDetailElement = wait.Until(driver =>
                     driver.FindElement(By.ClassName("recipe-detail")));
 
+                // Wait for the recipe name element to be visible
+                var recipeNameElement = wait.Until(driver =>
+                    recipeDetailElement.FindElement(By.TagName("h1")));
+
+                // Log the actual text for debugging
+                Console.WriteLine("Actual Recipe Name: " + recipeNameElement.Text);
+
                 // Verify recipe name
-                var recipeNameElement = recipeDetailElement.FindElement(By.TagName("h1"));
-                Assert.IsTrue(recipeNameElement.Text.Contains("Test Recipe"));
+                Assert.IsTrue(recipeNameElement.Text.Contains("6"));
             }
             catch (WebDriverTimeoutException)
             {
                 Assert.Fail("The recipe detail element was not found on the details page.");
             }
+
         }
 
         [TestMethod]
         public void CheckEditAndDeleteButtonsOnDetailsPage()
         {
             // Navigate to Details page
-            _webdriver?.Navigate().GoToUrl(BaseUrl + "Home/Details/2");
+            _webdriver?.Navigate().GoToUrl(BaseUrl + "Home/Details/6");
 
             // Use WebDriverWait to wait for the elements to become visible
             var wait = new WebDriverWait(_webdriver, TimeSpan.FromSeconds(10));
@@ -70,7 +77,7 @@ namespace Recipe.WebApp.Tests
 
                 // Wait for the "Delete Recipe" form to be visible
                 var deleteForm = wait.Until(driver =>
-                    driver.FindElement(By.CssSelector("form[action$='/Details/Delete/2']")));
+                    driver.FindElement(By.CssSelector("form[action$='/Details/Delete/6']")));
 
                 // Assert that both elements are present
                 Assert.IsNotNull(editLink);

@@ -44,6 +44,42 @@ namespace Recipe.WebApp.Tests
             }
         }
 
+        [TestMethod]
+        public void AddToFavorites_ButtonClick_ShouldMarkRecipeAsFavorite()
+        {
+            // Arrange
+            _webdriver.Navigate().GoToUrl(BaseUrl);
+
+            // Find a recipe card
+            var recipeCard = _webdriver.FindElement(By.Id("fav-btn"));
+            // Adjust the selector as needed
+
+            var wait = new WebDriverWait(_webdriver, TimeSpan.FromSeconds(5));
+
+            // Find the "Add to Favorites" button within the specific recipe card
+            var addToFavoritesButton = wait.Until(driver =>
+                recipeCard.FindElement(By.XPath(".//button[@id='add-to-favorites']")));
+
+            // Get the recipe card's text (or any attribute) before clicking the button
+            var recipeCardTextBeforeClick = recipeCard.Text;
+
+            // Act
+            addToFavoritesButton.Click();
+
+            // Refresh the page to ensure the DOM is up-to-date
+            _webdriver.Navigate().Refresh();
+
+            // Re-find the recipe card
+            recipeCard = _webdriver.FindElement(By.Id("fav-btn"));
+
+            // Find the "Remove from Favorites" button within the refreshed recipe card
+            var removeFromFavoritesButton = recipeCard.FindElement(By.CssSelector("#remove-from-favorites"));
+
+            // Assert
+            var isFavoriteButtonDisplayed = removeFromFavoritesButton.Displayed;
+
+            Assert.IsTrue(isFavoriteButtonDisplayed, "Recipe was not marked as favorite.");
+        }
 
         [TestCleanup]
         public void Teardown()
